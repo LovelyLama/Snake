@@ -35,15 +35,15 @@ public class Controller implements KeyListener{
         model = new Model(size);        
         
         JFrame jf = new JFrame("Snake");
-        jf.setSize(480,500);
-        gp = new GamePanel(size, 15, model.getApple(), model.getSnakeBody());
+        jf.setSize(600,600);
+        gp = new GamePanel(size, 17, model.getApple(), model.getSnakeBody());
         jf.add(gp);
         taskPerformer = (ActionEvent e) -> {
             model.moveSnake();
             gp.repaint();
         };
         
-        timer = new Timer(400, taskPerformer);
+        timer = new Timer(100, taskPerformer);
         timer.setInitialDelay(0);
         timer.start();
         jf.setVisible(true);

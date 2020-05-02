@@ -20,7 +20,7 @@ import util.Direction;
  */
 public class Model {
     
-    private final int GROWTH_SPURT = 8; // starting length of the snake
+    private final int GROWTH_SPURT = 2; // starting length of the snake
     
     private int squaresToGrow = 0;
     private Direction movementDirection = Direction.UP; 
@@ -71,27 +71,25 @@ public class Model {
     }
     
     public int moveSnake() {
-        int nextHeadX = snakeBody.getFirst().x;
-        int nextHeadY = snakeBody.getFirst().y;
+        Point nextHead = (Point) snakeBody.getFirst().clone();
         
         switch (movementDirection) {
             case UP:
-                --nextHeadY;
+                --nextHead.y;
                 break;
             case DOWN:
-                ++nextHeadY;
+                ++nextHead.y;
                 break;
             case RIGHT:
-                ++nextHeadX;
+                ++nextHead.x;
                 break;
             case LEFT:
-                --nextHeadX;
+                --nextHead.x;
                 break;
             default:
                 break;
         }
         
-        Point nextHead = new Point(nextHeadX, nextHeadY);
         
         if ( collided(nextHead) ) {
             clearModel();
@@ -103,7 +101,7 @@ public class Model {
         if ( ateApple(nextHead) ) {
             snakeBody.addFirst(nextHead);
             occupiedPositions.add(snakeBody.getFirst());
-            generateApple();         
+            generateApple();   
         } else if (squaresToGrow > 0) {
             snakeBody.addFirst(nextHead);
             occupiedPositions.add(snakeBody.getFirst());
@@ -128,8 +126,8 @@ public class Model {
                 || bottomEdgeCollision;
     }
 
-    private boolean ateApple(Point p) {
-        return snakeBody.getFirst().equals(apple);
+    private boolean ateApple(Point next) {
+        return next.equals(apple);
     }
 
     public Deque<Point> getSnakeBody() {
@@ -148,7 +146,5 @@ public class Model {
         occupiedPositions.clear();
         snakeBody.clear();
     }
-    
-    
     
 }
