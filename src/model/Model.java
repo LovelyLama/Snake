@@ -74,7 +74,6 @@ public class Model {
         int nextHeadX = snakeBody.getFirst().x;
         int nextHeadY = snakeBody.getFirst().y;
         
-        
         switch (movementDirection) {
             case UP:
                 --nextHeadY;
