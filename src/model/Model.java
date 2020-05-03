@@ -116,9 +116,9 @@ public class Model {
     private boolean collided(Point p) {
         boolean snakeCollision = snakeBody.contains(p); // with itself
         boolean leftEdgeCollision = p.x < 0;
-        boolean rightEdgeCollision = p.x > mapSize.width;
+        boolean rightEdgeCollision = p.x > mapSize.width-1;
         boolean topEdgeCollision = p.y < 0;
-        boolean bottomEdgeCollision = p.y > mapSize.height;
+        boolean bottomEdgeCollision = p.y > mapSize.height-1;
         return snakeCollision
                 || leftEdgeCollision
                 || rightEdgeCollision

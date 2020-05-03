@@ -28,7 +28,6 @@ public class GamePanel extends JPanel {
     private Graphics2D g2d;
 
     public GamePanel(Dimension size, int scale, Point apple, Deque<Point> snakeBody) {
-        //this.setSize(size.width*scale, size.height*scale);
         this.size = size;
         this.scale = scale;
         this.apple = apple;
@@ -45,9 +44,15 @@ public class GamePanel extends JPanel {
         paintSnake();
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(size.width*scale, size.height*scale);
+    }
+    
+
     private void paintDots() {
         g2d.setStroke( new BasicStroke(0.25f) );
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(Color.RED);
         for (int i = 0; i <= size.width*scale; i+=scale)
             for (int j = 0; j <= size.height*scale; j+=scale) {
                 if (i == size.width*scale) {

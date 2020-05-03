@@ -14,7 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import model.Model;
 import util.Direction;
+import view.GameOverPanel;
 import view.GamePanel;
+import view.View;
 
 /**
  *
@@ -26,6 +28,7 @@ public class Controller implements KeyListener{
     private  int TICKS_PER_SECOND = 1000/8;
     private  Timer timer;
     private Model model;
+    private View view;
     private GamePanel gp;
 
     
@@ -33,25 +36,17 @@ public class Controller implements KeyListener{
     public Controller() {
         Dimension size = new Dimension(30,30);
         model = new Model(size);        
-        
-        JFrame jf = new JFrame("Snake");
-        jf.setSize(600,600);
-        gp = new GamePanel(size, 17, model.getApple(), model.getSnakeBody());
-        jf.add(gp);
+        view = new View(size, model.getApple(), model.getSnakeBody());
+        view.addKeyListener(this);
+
         taskPerformer = (ActionEvent e) -> {
             model.moveSnake();
-            gp.repaint();
+            view.repaint();
         };
         
         timer = new Timer(100, taskPerformer);
         timer.setInitialDelay(0);
-        timer.start();
-        jf.setVisible(true);
-        jf.setResizable(false);
-        jf.addKeyListener(this);
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
+        timer.start();        
     }
     
     
