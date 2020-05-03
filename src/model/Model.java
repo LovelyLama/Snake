@@ -18,7 +18,7 @@ import util.Direction;
  * Model of the snake game in MVC design pattern.
  * @author LovelyLama
  */
-public class Model {
+public class Model implements ObservableModel{
     
     private final int GROWTH_SPURT = 2; // starting length of the snake
     
@@ -31,6 +31,8 @@ public class Model {
     private final Random random = new Random();
     private final Deque<Point> snakeBody = new ArrayDeque<>();
     private final Set<Point> occupiedPositions = new LinkedHashSet();
+    
+    private ObserverModel objectToNotify;
 
     public Model(Dimension mapSize) {
         this.mapSize = mapSize;
@@ -94,6 +96,7 @@ public class Model {
         if ( collided(nextHead) ) {
             clearModel();
             generateSnakeAtCenter();
+            objectToNotify.gameOver();
             return 1; // game over
         } 
         
@@ -101,7 +104,8 @@ public class Model {
         if ( ateApple(nextHead) ) {
             snakeBody.addFirst(nextHead);
             occupiedPositions.add(snakeBody.getFirst());
-            generateApple();   
+            generateApple();  
+            objectToNotify.appleEaten();
         } else if (squaresToGrow > 0) {
             snakeBody.addFirst(nextHead);
             occupiedPositions.add(snakeBody.getFirst());
@@ -145,6 +149,11 @@ public class Model {
     public void clearModel() {
         occupiedPositions.clear();
         snakeBody.clear();
+    }
+
+    @Override
+    public void attach(ObserverModel observerModel) {
+        this.objectToNotify = observerModel;
     }
     
 }

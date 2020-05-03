@@ -10,11 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JFrame;
 import javax.swing.Timer;
 import model.Model;
+import model.ObserverModel;
 import util.Direction;
-import view.GameOverPanel;
 import view.GamePanel;
 import view.View;
 
@@ -22,20 +21,22 @@ import view.View;
  *
  * @author LovelyLama
  */
-public class Controller implements KeyListener{
+public class Controller implements KeyListener, ObserverModel{
     
-    private  ActionListener taskPerformer;
-    private  int TICKS_PER_SECOND = 1000/8;
-    private  Timer timer;
+    private ActionListener taskPerformer;
+    private int TICKS_PER_SECOND = 1000/8;
+    private Timer timer;
     private Model model;
     private View view;
     private GamePanel gp;
+    private int score = 0;
 
     
 
     public Controller() {
         Dimension size = new Dimension(30,30);
-        model = new Model(size);        
+        model = new Model(size);
+        model.attach(this);
         view = new View(size, model.getApple(), model.getSnakeBody());
         view.addKeyListener(this);
 
@@ -80,4 +81,14 @@ public class Controller implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void appleEaten() {
+        view.updateScore(++score);
+    }
+
+    @Override
+    public void gameOver() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

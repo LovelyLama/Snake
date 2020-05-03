@@ -27,12 +27,14 @@ public final class View {
     private int scale;
     private final GamePanel gamePanel;
     private final GameOverPanel gameOverPanel;
+    private final GameHeaderPanel gameHeaderPanel;
 
     public View(Dimension size, Point apple, Deque<Point> snakeBody) {
         int scale = 17;
         //Dimension scaledSize = new Dimension(size.width*scale, size.height*scale);
         gamePanel = new GamePanel(size, scale, apple, snakeBody);
         gameOverPanel = new GameOverPanel(size, scale);
+        gameHeaderPanel = new GameHeaderPanel(new Dimension(size.width*scale, 50), scale);
         this.size = size;
         this.scale = scale;
         initGridView();
@@ -45,6 +47,7 @@ public final class View {
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setBorder(BorderFactory.createEmptyBorder(scale, scale, scale, scale));
         content.setBackground(Color.black);
+        content.add(gameHeaderPanel);
         content.add(gamePanel);
 
         mainWindow.add(content);
@@ -60,5 +63,9 @@ public final class View {
     
     public void repaint() {
         mainWindow.repaint();
+    }
+    
+    public void updateScore(int score){
+        gameHeaderPanel.setScore(score);
     }
 }
